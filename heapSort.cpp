@@ -1,36 +1,43 @@
 #include<iostream>
+#include<vector>
 using namespace std;
-void heapify(int a[], int n, int i){
-    int largest  = i;
+void heapify(vector<int>&vt, int i,int n){
+    int largest = i;
     int left = 2*i+1;
     int right = 2*i+2;
 
-    if(left<n && a[left] > a[largest]){
+    if(left < n && vt[left] > vt[largest]){
         largest = left;
     }
-    if(right < n && a[right] > a[largest]){
+    if(right < n && vt[right] > vt[largest]){
         largest = right;
     }
+    
     if(largest != i){
-        swap(a[largest], a[i]);
-        heapify(a, n, largest);
+        swap(vt[largest], vt[i]);
+        heapify(vt, largest, n);
     }
-
 }
-void HeapSort (int a[], int n){
-    for(int i = n/2+1; i>=0;--i){
-        heapify(a,n,i);
+void heapSort(vector<int>& vt){
+    for(int i=vt.size()/2+1; i>=0;--i){
+        heapify(vt, i, vt.size());
     }
-    for(int i = n-1; i>=0;--i){
-        swap(a[i], a[0]);
-        heapify(a, i, 0);
+    for(int i = vt.size()-1; i>=0;--i){
+        swap(vt[0], vt[i]);
+        heapify(vt, 0, i);
     }
 }
 int main(){
-    int a[] = {4,5,3,2,6,1,7,9,8};
-    HeapSort(a, 9);
-    for(int i=0;i<9;++i){
-        cout<<a[i]<<" ";
+    cout<<"Nhap so phan tu trong day: ";
+    int n; cin>>n;
+    vector<int>vt;
+    for(int i=0;i<n;++i){
+        int x; cin>>x;
+        vt.push_back(x);
     }
-    return 0;
+    heapSort(vt);
+    for(int i=0;i<vt.size();++i){
+        cout<<vt[i]<<" ";
+    }
+    return 0; 
 }
